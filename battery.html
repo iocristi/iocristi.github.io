@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <script>
+function init() {
+    try {
+        document.getElementById("dspl").innerText = window.navigator.battery.level;
+    } catch (e) {
+        console.error("1 Error occurred while accessing battery information:", e);
+    }
+    window.navigator.getBattery().then(function(battery) {
+        battery.addEventListener('levelchange', function() {
+            document.getElementById("dspl").innerText = Math.round(battery.level*100) + ' battery level';
+        });
+    }).catch(function(error) {
+        console.error("2 Error occurred while accessing battery information:", error);
+    });
+    console.log("3 Battery level: end" );
+    console.log("4 getBattery in navigator: " + ('getBattery' in navigator) );
+
+    if ('getBattery' in navigator) {
+        navigator.getBattery().then(function(battery) {
+            const output = document.getElementById('timeRemaining');
+            const dspl = document.getElementById('dspl');
+
+            function toHours(seconds) {
+                return (seconds / 3600).toFixed(1);
+            }
+
+            function updateTimeRemaining() {
+                if(battery.level ) {
+                    dspl.textContent = '% battery level: ' + Math.round(battery.level * 100);
+                }
+                if (battery.charging) {
+                    if (battery.chargingTime === Infinity) {
+                        output.textContent = 'Plugged in, charge time unknown';
+                    } else {
+                        output.textContent = `Charging, ${toHours(battery.chargingTime)} hours until full`;
+                    }
+                } else if (battery.dischargingTime === Infinity) {
+                    output.textContent = 'On battery, time remaining unknown';
+                } else {
+                    output.textContent = `On battery, ${toHours(battery.dischargingTime)} hours remaining`;
+                }
+            }
+
+            updateTimeRemaining();
+
+            battery.addEventListener('chargingchange', updateTimeRemaining);
+            battery.addEventListener('levelchange', updateTimeRemaining);
+            battery.addEventListener('chargingtimechange', updateTimeRemaining);
+            battery.addEventListener('dischargingtimechange', updateTimeRemaining);
+        }).catch(function(error) {
+            document.getElementById('timeRemaining').textContent = 'Battery API not available or access denied.';
+            console.error('Battery API error:', error);
+        });
+    } else {
+        document.getElementById('timeRemaining').textContent = 'Battery API not supported in this browser.';
+    }
+}
+window.onload = init;
+        </script>
+    </head>
+    <body>
+        <div id="dspl"></div>
+        <div id="timeRemaining"></div>
+    </body>
+</html>
+
+<!-- https://www.w3docs.com/learn-javascript/battery-api -->
