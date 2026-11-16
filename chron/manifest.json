@@ -1,0 +1,35 @@
+{
+  "name": "VoiceChron – Voice Chronometer",
+  "short_name": "VoiceChron",
+  "description": "A premium voice-controlled chronometer with lap times, text-to-speech readouts, and ambient animations.",
+  "start_url": "./chronometer.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d1117",
+  "theme_color": "#0ae5e5",
+  "lang": "en",
+  "categories": ["utilities", "sports"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Timer",
+      "short_name": "Start",
+      "description": "Open VoiceChron ready to start",
+      "url": "./chronometer.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
